@@ -1,0 +1,193 @@
+/* inicio.css – Dashboard Premium Presto */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8fafc;
+    font-family: "Inter", sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background: #0f9d58;
+    /* Verde Dólar */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-logo {
+    font-size: 1.8rem;
+    font-weight: 900;
+    padding: 0 2rem;
+    margin-bottom: 2.5rem;
+    letter-spacing: -1px;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    flex: 1;
+}
+
+.nav-item {
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 1;
+}
+
+.logout-btn {
+    margin: 2rem;
+    padding: 0.75rem;
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.logout-btn:hover {
+    background: #e53e3e;
+    border-color: #e53e3e;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 2.5rem;
+    overflow-y: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    font-size: 1.75rem;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    background: #cbd5e1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #475569;
+}
+
+/* Grid Stats */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.stat-trend {
+    font-size: 0.75rem;
+    color: #10b981;
+    font-weight: 600;
+}
+
+/* Table Section */
+.data-section {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    padding: 1rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #94a3b8;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+td {
+    padding: 1rem;
+    color: #334155;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 99px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-active {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}

@@ -1,0 +1,92 @@
+// app/login/page.tsx
+"use client";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import "./login.css";
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+
+  const [isRegistering, setIsRegistering] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setMessage("");
+    if (!email || !password) {
+      setError("Email y contraseña son obligatorios.");
+      return;
+    }
+    try {
+      const endpoint = isRegistering ? "/api/register" : "/api/login";
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        if (isRegistering) {
+          setMessage("Registro exitoso. Espere aprobación.");
+          setIsRegistering(false);
+        } else {
+          setMessage("Login exitoso. Redirigiendo...");
+
+          // Guardamos info básica en localStorage para saber quién es
+          localStorage.setItem("user", JSON.stringify(data.user));
+
+          setTimeout(() => {
+            if (data.user.role === "CLIENTE") {
+              router.push("/cliente");
+            } else {
+              router.push("/inicio");
+            }
+          }, 800);
+        }
+      } else {
+        setError(data.error || "Error");
+      }
+    } catch (err) {
+      setError("Error de red");
+    }
+  };
+
+  return (
+    <div className="login-container">
+      <h1 className="brand-title">PRESTO</h1>
+      <form onSubmit={handleSubmit} className="login-form">
+        <h2>{isRegistering ? "Crear Cuenta" : "Iniciar Sesión"}</h2>
+        <label>
+          Email
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Introduce tu email"
+          />
+        </label>
+        <label>
+          Contraseña
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Contraseña"
+          />
+        </label>
+        {error && <p className="error">{error}</p>}
+        {message && <p className="message">{message}</p>}
+        <button type="submit" className="submit-btn">
+          {isRegistering ? "Registrarse" : "Entrar"}
+        </button>
+        <p className="toggle-mode" onClick={() => setIsRegistering(!isRegistering)}>
+          {isRegistering ? "¿Ya tienes cuenta? Inicia sesión" : "¿No tienes cuenta? Regístrate"}
+        </p>
+      </form>
+    </div>
+  );
+}

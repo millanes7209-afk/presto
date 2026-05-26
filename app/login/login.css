@@ -1,0 +1,130 @@
+/* login.css – estilo verde dólar con fondo crema/amarillo */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #fffef2;
+  /* Fondo blanco cremoso / amarillento */
+  background-image:
+    radial-gradient(at 0% 0%, hsla(50, 100%, 95%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(60, 100%, 97%, 1) 0, transparent 50%);
+  font-family: "Inter", sans-serif;
+  color: #333;
+  gap: 1.5rem;
+}
+
+.brand-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #0f9d58;
+  /* Verde dólar */
+  letter-spacing: -0.05em;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.05);
+  margin-bottom: 0.5rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: #ffffff;
+  padding: 2.5rem 3rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(15, 157, 88, 0.1);
+  width: 400px;
+  border: 1px solid #f0f0f0;
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.login-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #666;
+  gap: 0.5rem;
+}
+
+.login-form input {
+  padding: 0.8rem 1rem;
+  background: #fdfdfd;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: #0f9d58;
+  /* Foco verde dólar */
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(15, 157, 88, 0.08);
+}
+
+.submit-btn {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #0f9d58;
+  /* Botón verde dólar */
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(15, 157, 88, 0.25);
+}
+
+.submit-btn:hover {
+  background: #0b8043;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(15, 157, 88, 0.35);
+}
+
+.toggle-mode {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 1.25rem;
+  cursor: pointer;
+  color: #0f9d58;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.toggle-mode:hover {
+  color: #0b8043;
+  text-decoration: underline;
+}
+
+.error,
+.message {
+  text-align: center;
+  font-size: 0.875rem;
+  padding: 0.8rem;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.error {
+  background: #fff5f5;
+  color: #e53e3e;
+  border: 1px solid #fed7d7;
+}
+
+.message {
+  background: #f0fff4;
+  color: #2f855a;
+  border: 1px solid #c6f6d5;
+}
