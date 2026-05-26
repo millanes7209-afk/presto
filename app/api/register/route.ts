@@ -13,7 +13,8 @@ export async function POST(request: Request) {
             );
         }
 
-        const existingUser = await prisma.users.findUnique({
+        // Corregido: Prisma usa el nombre del modelo en singular
+        const existingUser = await prisma.user.findUnique({
             where: { email },
         });
 
@@ -26,22 +27,22 @@ export async function POST(request: Request) {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Creamos cliente y usuario en una transacción
+        // Creamos cliente y usuario en una transacción con los nombres de modelo correctos
         const newUser = await prisma.$transaction(async (tx) => {
-            const cliente = await tx.clientes.create({
+            const cliente = await tx.cliente.create({
                 data: {
-                    nombre: nombre || "Usuario",
-                    apellido: apellido || "Nuevo",
+                    nombre: nombre || "Nuevo",
+                    apellido: apellido || "Usuario",
                     email: email,
                 },
             });
 
-            return await tx.users.create({
+            return await tx.user.create({
                 data: {
                     email,
                     password: hashedPassword,
                     cliente_id: cliente.id,
-                    es_gerente: false,
+                    role: "ADMIN", // Por defecto ADMIN para registros externos, o ajustar según lógica
                 },
             });
         });
@@ -50,10 +51,10 @@ export async function POST(request: Request) {
             { message: "Registro exitoso.", user: { email: newUser.email } },
             { status: 201 }
         );
-    } catch (error) {
+    } catch (error: any) {
         console.error("error en registro:", error);
         return NextResponse.json(
-            { error: "Error en el servidor durante el registro." },
+            { error: "Error en el servidor durante el registro.", detail: error.message },
             { status: 500 }
         );
     }
