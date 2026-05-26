@@ -35,7 +35,8 @@ export async function POST(request: Request) {
     }
 
     // El nombre lo tomamos del cliente vinculado si existe, sino del registro de usuario
-    const nombreUsuario = user.cliente ? `${user.cliente.nombre} ${user.cliente.apellido}` : (user.nombre || "Administrador");
+    // El nombre lo tomamos del cliente vinculado si existe, sino es el administrador
+    const nombreUsuario = user.cliente ? `${user.cliente.nombre} ${user.cliente.apellido}` : "Administrador";
 
     return NextResponse.json({
       message: `¡Bienvenido!`,
