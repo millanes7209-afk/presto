@@ -29,6 +29,8 @@ export default function LoginPage() {
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
+      console.log("DEBUG LOGIN - Respuesta:", data);
+      if (!res.ok) alert("DEBUG SERVER ERROR: " + JSON.stringify(data));
       if (res.ok) {
         if (isRegistering) {
           setMessage("Registro exitoso. Espere aprobación.");
@@ -48,10 +50,11 @@ export default function LoginPage() {
           }, 800);
         }
       } else {
-        setError(data.error || "Error");
+        const msg = data.detail ? `${data.error}: ${data.detail}` : (data.error || "Error");
+        setError(msg);
       }
-    } catch (err) {
-      setError("Error de red");
+    } catch (err: any) {
+      setError("Error crítico: " + err.message);
     }
   };
 
