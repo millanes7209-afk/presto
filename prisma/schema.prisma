@@ -49,7 +49,7 @@ model Prestamo {
   descripcion       String?
   created_at        DateTime? @default(now()) @db.Timestamptz(6)
   updated_at        DateTime? @default(now()) @db.Timestamptz(6)
-  clientes          Cliente   @relation(fields: [cliente_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  cliente           Cliente   @relation(fields: [cliente_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   pagos             Pago[]
   moras             Mora[]
 
@@ -69,7 +69,7 @@ model Pago {
   notas                String?
   created_at           DateTime? @default(now()) @db.Timestamptz(6)
   updated_at           DateTime? @default(now()) @db.Timestamptz(6)
-  prestamos            Prestamo  @relation(fields: [prestamo_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  prestamo             Prestamo  @relation(fields: [prestamo_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@map("pagos")
 }
@@ -81,7 +81,7 @@ model Mora {
   razon       String
   pagada      Boolean  @default(false)
   fecha_mora  DateTime @db.Timestamptz(6)
-  prestamos   Prestamo @relation(fields: [prestamo_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  prestamo    Prestamo @relation(fields: [prestamo_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@map("moras")
 }

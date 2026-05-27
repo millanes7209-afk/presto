@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
     try {
         const prestamos = await prisma.prestamo.findMany({
-            include: { clientes: true },
+            include: { cliente: true },
             orderBy: { fecha_creacion: 'desc' }
         });
         return NextResponse.json(prestamos);
