@@ -10,87 +10,121 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [isRegistering, setIsRegistering] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("INICIANDO FETCH - Si ves esto, el código nuevo está activo");
     setError("");
     setMessage("");
     if (!email || !password) {
-      setError("Email y contraseña son obligatorios.");
+      setError("Campos obligatorios faltantes.");
       return;
     }
+
     try {
-      const endpoint = isRegistering ? "/api/register" : "/api/login";
-      const res = await fetch(endpoint, {
+      setLoading(true);
+      const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
-      console.log("DEBUG LOGIN - Respuesta:", data);
-      if (!res.ok) alert("DEBUG SERVER ERROR: " + JSON.stringify(data));
+
       if (res.ok) {
-        if (isRegistering) {
-          setMessage("Registro exitoso. Espere aprobación.");
-          setIsRegistering(false);
-        } else {
-          setMessage("Login exitoso. Redirigiendo...");
-
-          // Guardamos info básica en localStorage para saber quién es
-          localStorage.setItem("user", JSON.stringify(data.user));
-
-          setTimeout(() => {
-            if (data.user.role === "CLIENTE") {
-              router.push("/cliente");
-            } else {
-              router.push("/inicio");
-            }
-          }, 800);
-        }
+        setMessage("¡Ingreso exitoso!");
+        localStorage.setItem("user", JSON.stringify(data.user));
+        setTimeout(() => {
+          router.push(data.user.role === "CLIENTE" ? "/cliente" : "/inicio");
+        }, 800);
       } else {
-        const msg = data.detail ? `${data.error}: ${data.detail}` : (data.error || "Error");
-        setError(msg);
+        setError(data.error || "Error al ingresar");
       }
     } catch (err: any) {
-      setError("Error crítico: " + err.message);
+      setError("Error de conexión");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-container">
       <h1 className="brand-title">PRESTO</h1>
-      <form onSubmit={handleSubmit} className="login-form">
-        <h2>{isRegistering ? "Crear Cuenta" : "Iniciar Sesión"}</h2>
-        <label>
-          Email
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Introduce tu email"
-          />
-        </label>
-        <label>
-          Contraseña
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Contraseña"
-          />
-        </label>
-        {error && <p className="error">{error}</p>}
-        {message && <p className="message">{message}</p>}
-        <button type="submit" className="submit-btn">
-          {isRegistering ? "Registrarse" : "ENTRAR (v2.0 DEBUG)"}
-        </button>
-        <p className="toggle-mode" onClick={() => setIsRegistering(!isRegistering)}>
-          {isRegistering ? "¿Ya tienes cuenta? Inicia sesión" : "¿No tienes cuenta? Regístrate"}
-        </p>
-      </form>
+
+      <div className="login-form">
+        {/* Toggle mejorado */}
+        <div className="mode-selector">
+          <button
+            className={!isRegistering ? "active" : ""}
+            onClick={() => setIsRegistering(false)}
+          >
+            LOGIN
+          </button>
+          <button
+            className={isRegistering ? "active" : ""}
+            onClick={() => setIsRegistering(true)}
+          >
+            REGISTRO
+          </button>
+        </div>
+
+        <h2>{isRegistering ? "Crea tu cuenta" : "Bienvenido"}</h2>
+
+        <form onSubmit={handleSubmit}>
+          {isRegistering && (
+            <>
+              <label>
+                Nombre
+                <input type="text" placeholder="Tu nombre" />
+              </label>
+              <label>
+                Apellido
+                <input type="text" placeholder="Tu apellido" />
+              </label>
+            </>
+          )}
+
+          <label>
+            Email
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="tu@email.com"
+              required
+            />
+          </label>
+
+          <label className="password-label">
+            Contraseña
+            <div className="password-input-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
+            </div>
+          </label>
+
+          {error && <p className="error">{error}</p>}
+          {message && <p className="message">{message}</p>}
+
+          <button type="submit" className="submit-btn" disabled={loading}>
+            {loading ? "Procesando..." : (isRegistering ? "Registrarse" : "INGRESAR")}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

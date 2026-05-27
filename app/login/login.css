@@ -108,6 +108,64 @@
   text-decoration: underline;
 }
 
+.mode-selector {
+  display: flex;
+  background: #f0fdf4;
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #dcfce7;
+}
+
+.mode-selector button {
+  flex: 1;
+  padding: 0.6rem;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s;
+}
+
+.mode-selector button.active {
+  background: #ffffff;
+  color: #0f9d58;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.toggle-password:hover {
+  opacity: 1;
+}
+
 .error,
 .message {
   text-align: center;
@@ -115,6 +173,7 @@
   padding: 0.8rem;
   border-radius: 10px;
   font-weight: 500;
+  margin: 0.5rem 0;
 }
 
 .error {
