@@ -15,6 +15,7 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    alert("INICIANDO FETCH - Si ves esto, el código nuevo está activo");
     setError("");
     setMessage("");
     if (!email || !password) {
@@ -84,7 +85,7 @@ export default function LoginPage() {
         {error && <p className="error">{error}</p>}
         {message && <p className="message">{message}</p>}
         <button type="submit" className="submit-btn">
-          {isRegistering ? "Registrarse" : "Entrar"}
+          {isRegistering ? "Registrarse" : "ENTRAR (v2.0 DEBUG)"}
         </button>
         <p className="toggle-mode" onClick={() => setIsRegistering(!isRegistering)}>
           {isRegistering ? "¿Ya tienes cuenta? Inicia sesión" : "¿No tienes cuenta? Regístrate"}
