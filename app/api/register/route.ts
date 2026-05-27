@@ -13,7 +13,7 @@ export async function POST(request: Request) {
             );
         }
 
-        // Corregido: Prisma usa el nombre del modelo en singular
+        // Usamos prisma.user (singular) según el esquema
         const existingUser = await prisma.user.findUnique({
             where: { email },
         });
@@ -27,12 +27,11 @@ export async function POST(request: Request) {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Creamos cliente y usuario en una transacción con los nombres de modelo correctos
         const newUser = await prisma.$transaction(async (tx) => {
             const cliente = await tx.cliente.create({
                 data: {
-                    nombre: nombre || "Nuevo",
-                    apellido: apellido || "Usuario",
+                    nombre: nombre || "Usuario",
+                    apellido: apellido || "Nuevo",
                     email: email,
                 },
             });
@@ -42,7 +41,7 @@ export async function POST(request: Request) {
                     email,
                     password: hashedPassword,
                     cliente_id: cliente.id,
-                    role: "ADMIN", // Por defecto ADMIN para registros externos, o ajustar según lógica
+                    role: "ADMIN",
                 },
             });
         });
@@ -54,7 +53,7 @@ export async function POST(request: Request) {
     } catch (error: any) {
         console.error("error en registro:", error);
         return NextResponse.json(
-            { error: "Error en el servidor durante el registro.", detail: error.message },
+            { error: "Error en el servidor", detail: error.message },
             { status: 500 }
         );
     }
