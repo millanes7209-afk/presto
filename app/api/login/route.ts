@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     const user = await prisma.user.findUnique({
       where: { email: cleanEmail },
       include: {
-        cliente: {
+        clientes: {
           select: {
             nombre: true,
             apellido: true
@@ -34,6 +34,8 @@ export async function POST(request: Request) {
         }
       }
     });
+
+    console.log("Database result:", user ? "User found" : "User NOT found");
 
     if (!user) {
       console.log(`Login Fallido: Usuario ${cleanEmail} no encontrado`);
@@ -52,7 +54,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Credenciales inválidas" }, { status: 401 });
     }
 
-    const nombreUsuario = user.cliente ? `${user.cliente.nombre} ${user.cliente.apellido}` : "Administrador";
+    const nombreUsuario = user.nombre || (user.clientes ? `${user.clientes.nombre} ${user.clientes.apellido}` : "Administrador");
     console.log(`Login Exitoso: ${cleanEmail} (${nombreUsuario})`);
 
     return NextResponse.json({

@@ -28,7 +28,7 @@ export async function GET() {
             // 3. Intereses ya COBRADOS de préstamos APROBADO (para el proyectado)
             prisma.pago.aggregate({
                 _sum: { monto_interes_pagado: true },
-                where: { prestamo: { estado: 'APROBADO' } }
+                where: { prestamos: { estado: 'APROBADO' } }
             }),
             // 4. Intereses COBRADOS TOTALES (Histórico de todos los préstamos incluso los ya pagados)
             prisma.pago.aggregate({
@@ -51,13 +51,13 @@ export async function GET() {
                 },
                 orderBy: { fecha_vencimiento: 'asc' },
                 take: 5,
-                include: { cliente: true }
+                include: { clientes: true }
             }),
             // 8. Últimos Movimientos (Pagos)
             prisma.pago.findMany({
                 orderBy: { fecha_pago: 'desc' },
                 take: 5,
-                include: { prestamo: { include: { cliente: true } } }
+                include: { prestamos: { include: { clientes: true } } }
             })
         ]);
 
