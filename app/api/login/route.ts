@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Credenciales inválidas" }, { status: 401 });
     }
 
-    const nombreUsuario = user.nombre || (user.cliente ? `${user.cliente.nombre} ${user.cliente.apellido}` : "Administrador");
+    const nombreUsuario = user.cliente ? `${user.cliente.nombre} ${user.cliente.apellido}` : "Administrador";
     console.log(`Login Exitoso: ${cleanEmail} (${nombreUsuario})`);
 
     return NextResponse.json({

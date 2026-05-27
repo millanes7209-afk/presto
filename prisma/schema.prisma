@@ -11,7 +11,6 @@ model User {
   id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email      String   @unique
   password   String
-  nombre     String?
   role       String   @default("ADMIN") // ADMIN o CLIENTE
   cliente_id String?  @unique @db.Uuid
   cliente    Cliente? @relation(fields: [cliente_id], references: [id])
